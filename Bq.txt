@@ -1,0 +1,420 @@
+Count Frequency 
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+
+// optimsed approch 
+// Do this without map 
+// Tc = O(N2); -> nested loop
+// Sc = O(1);
+void countFrequency(int arr[],int n) {
+    vector<bool> visited(n,false);
+    
+    for(int i=0;i<n;i++) {
+        
+        if(visited[i] == true) {
+            continue;
+        }
+        
+        int count  = 1;
+        for(int j=i+1;j<n;j++) {
+            if(arr[i] == arr[j]) {
+                visited[j] = true;
+                count++;
+            }
+        }
+        cout<<arr[i]<<"->"<<count<<endl;
+    }
+}
+
+// brute force 
+// Tc = O(N); -> for loop traversal
+// Sc = O(N); -> map data structure
+// void countFrequency(int arr[],int n) {
+//     map<int,int> mp;
+//     for(int i=0;i<n;i++) {
+//         mp[arr[i]]++;
+//     }
+    
+//     for(auto j:mp) {
+//         cout<<j.first<<"->"<<j.second<<endl;
+//     }
+// }
+
+int main()
+{
+    int arr[] = {10,5,10,15,10,5};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    countFrequency(arr,n);
+    return 0;
+}
+
+//Rearrange the arrays 
+#include <iostream>
+using namespace std;
+// Brute force approch
+// Tc = O(N) + O(N) => O(N);
+// Sc = O(1);
+void rearrangeArray(int arr[],int n) {
+    for(int i=0;i<n/2;i++) {
+        cout<<arr[i]<<" ";
+    }
+    
+    for(int i=n-1;i>=n/2;i--) {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+}
+
+
+int main()
+{
+    int arr[] = {1,2,3,4,5,6};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    rearrangeArray(arr,n);
+
+    return 0;
+}
+
+// calculate Sum of the array 
+#include <iostream>
+using namespace std;
+// Brute force approch
+// Tc = O(N);
+// Sc = O(1);
+int calculateSum(int arr[],int n) {
+    int sum = 0;
+    for(int i=0;i<n;i++) {
+        sum += arr[i]
+    }
+    return sum;
+}
+
+int main()
+{
+    int arr[] = {1,2,3,4,5};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int ans = calculateSum(arr,n);
+    cout<<"The sum of the array is : "<<ans<<endl;
+    return 0;
+}
+
+// Rotate array by k position 
+#include <iostream>
+using namespace std;
+// More confusing please dry run 
+// Tc = O(N);
+// Sc = O(1);
+void swap(int arr[],int a,int b,int k) {
+    cout<<"a : "<<a<<endl;
+    cout<<"b : "<<b<<endl;
+    cout<<"k : "<<k<<endl;
+    for(int i=0;i<k;i++) {
+        cout<<"arr[a+i] : "<<arr[a+i]<<endl;
+        int temp = arr[a+i];
+        cout<<"arr[b+i] : "<<arr[b+i]<<endl;
+        arr[a+i] = arr[b+i];
+        cout<<"Temp : "<<temp<<endl;
+        arr[b+i] = temp;
+        cout<<"arr[b+i] : "<<arr[b+i]<<endl;
+    }
+    
+    for(int i=0;i<k;i++) {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl<<endl<<endl<<endl<<endl;
+}
+
+void blockSwap(int arr[],int k,int n) {
+    if(k == n || k == 0) {
+        return;
+    }
+    
+    // if first & second part are of same size 
+    if(k == n-k) {
+        swap(arr,0,n-k,k);
+        return;
+    }
+    else if(k < n - k) {
+        swap(arr,0,n-k,k);
+        blockSwap(arr,k,n-k);
+    } else if(k > n - k) {
+        swap(arr,0,k,n-k);
+        blockSwap(arr+n-k,2*k-n,k);
+    }
+}
+
+void printArray(int arr[],int n) {
+    for(int i=0;i<n;i++) {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    int arr[] = {1,2,3,4,5,6,7};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int k = 2;
+    blockSwap(arr,k,n);
+    cout<<"After rotating the array : "<<endl;
+    printArray(arr,n);
+
+    return 0;
+}
+
+// Find average 
+#include <iostream>
+using namespace std;
+// Brute force approch
+// TC = O(N);
+// Sc = O(1);
+int main()
+{
+    int arr[] = {1,2,3,4,5};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    double sum = 0;
+    for(int i=0;i<n;i++) {
+        sum += (double)arr[i];
+    }
+    double average = sum / n;
+    cout<<"The average is : "<<average<<endl;
+
+    return 0;
+}
+
+// Median of an array 
+#include <iostream>
+#include <algorithm>
+using namespace std;
+// Tc = O(Nlogn); -> sorting an array 
+// Sc = O(1);
+void getmedian(int arr[],int n) {
+    sort(arr,arr+n);
+    if(n % 2 == 0) {
+        int index1 = (n/2)-1;
+        int index2 = (n/2);
+        cout<<(double)(arr[index1] + arr[index2])/2<<endl;
+    } else {
+        cout<<arr[(n/2)]<<endl;
+    }
+}
+
+int main()
+{
+    int arr[] = {4,7,1,2,5,6};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    cout<<"The median of an array is : "<<endl;
+    getmedian(arr,n);
+    return 0;
+}
+
+// Remove Duplicate from an sorted array using set Data structure
+#include <iostream>
+#include <set>
+using namespace std;
+// Brute force approch -> method 1 
+// Tc = O(N);
+// Sc = O(N); -> set data structure  
+// int removeDuplicate(int arr[],int n) {
+//     set<int> s;
+//     for(int i=0;i<n;i++) {
+//         s.insert(arr[i]);
+//     }
+    
+//     int k = s.size();
+//     int j = 0;
+    
+//     for(auto x:s) {
+//         arr[j] = x;
+//         j++;
+//     }
+//     return k;
+// }
+
+//Two pointer approch 
+//Tc = O(N);
+//Sc = O(1);
+// int removeDuplicate(int arr[],int n) {
+//     int i = 0;
+//     for(int j=0;j<n;j++) {
+//         if(arr[i] != arr[j]) {
+//             i++;
+//             arr[i] = arr[j];
+//         }
+//     }
+//     return i+1;
+// }
+
+// void printArray(int arr[],int n) {
+//     for(int i=0;i<n;i++) {
+//         cout<<arr[i]<<" ";
+//     }
+//     cout<<endl;
+// }
+
+int main()
+{
+    int arr[] = {1,1,1,2,2,3,3,3,3,4,4};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int ans = removeDuplicate(arr,n);
+    printArray(arr,ans);
+    return 0;
+}
+
+//Symetricall pairs 
+#include <iostream>
+using namespace std;
+// Tc = O(N2);
+// Sc = O(1);
+int main()
+{
+    int arr[][2] = {{1,2},{2,1},{3,1},{4,5},{5,4}};
+    int n = 5;
+    cout<<"The symetricall pairs are  : "<<endl;
+    for(int i=0;i<n;i++) {
+        for(int j=i+1;j<n;j++) {
+            if(arr[j][0] == arr[i][1] && arr[j][1] == arr[i][0]) {
+                cout<<arr[i][0]<<","<<arr[i][1]<<endl;
+            }
+        }
+    }
+
+    return 0;
+}
+
+// maximum product of subarray 
+#include <iostream>
+#include <climits>
+using namespace std;
+// Brute force approch 
+// Tc = O(N3);
+// Sc = O(1);
+// int maxProductSubArray(int arr[],int n) {
+//     int result = INT_MIN;
+//     for(int i=0;i<n;i++) {
+//         for(int j=i+1;j<n;j++) {
+//             int prod = 1;
+//             for(int k=i;k<=j;k++) {
+//                 prod *= arr[k];
+//                 result = max(result,prod);
+//             }
+//         }
+//     }
+//     return result;
+// }
+
+int main()
+{
+    int arr[] = {1,2,-3,0,-4,-5};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int ans = maxProductSubArray(arr,n);
+    cout<<"The maximum product subarray is : "<<ans<<endl;
+
+    return 0;
+}
+
+//Element Replace By its Rank
+Brute force approch 
+#include <iostream>
+#include <set>
+using namespace std;
+// Tc = O(N)
+// Sc = O(N) -> set 
+int main()
+{
+    int arr[] = {20, 15, 26, 2, 98, 6};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    for(int i=0;i<n;i++) {
+        set<int> s;
+        for(int j=0;j<n;j++) {
+            if(arr[j] < arr[i]) {
+                s.insert(arr[j]);
+            }
+        }
+        cout<<s.size()+1<<" ";
+    }
+    return 0;
+}
+
+Better Approch 
+#include <iostream>
+#include <map>
+#include <algorithm>
+using namespace std;
+// Tc = O(N);
+// Sc = O(N) -> map;
+void replaceByRank(int arr[],int n) {
+    int brr[n];
+    map<int,int> mp;
+    int temp = 1;
+    for(int i=0;i<n;i++) {
+        brr[i] = arr[i];
+    }
+    sort(brr,brr+n);
+    for(int i=0;i<n;i++) {
+        if(mp[brr[i]] == 0) {
+            mp[brr[i]] = temp;
+            temp++;
+        }
+    }
+    
+    for(int i=0;i<n;i++) {
+        cout<<mp[arr[i]]<<" ";
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    int arr[] = {20, 15, 26, 2, 98, 6};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    replaceByRank(arr,n);
+
+    return 0;
+}
+
+//Sort Element by the frequency
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+using namespace std;
+// Tc = O(N) -> loop 
+// Sc = O(N) -> map,vector 
+bool sortEle(pair<int,int> a,pair<int,int> b) {
+    if(a.second == b.second) {
+        return a.first < b.second;
+    }
+    return a.second > b.second;
+}
+
+void sortEleByfreq(int arr[],int n) {
+    map<int,int> mp;
+    for(int i=0;i<n;i++) {
+        mp[arr[i]]++;
+    }
+    vector<pair<int,int>> v;
+    for(auto i=mp.begin() ; i!= mp.end();i++) {
+        v.push_back({i->first,i->second});
+    }
+    
+    sort(v.begin(),v.end(),sortEle);
+    for(int i=0;i<v.size();i++) {
+        while(v[i].second > 0) {
+            cout<<v[i].first<<" ";
+            v[i].second--;
+        }
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    int arr[] = {3, 3, 5, 2, 1, 1, 2};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    sortEleByfreq(arr,n);
+    return 0;
+}
+
